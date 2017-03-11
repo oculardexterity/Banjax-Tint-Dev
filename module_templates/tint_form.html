@@ -1,0 +1,30 @@
+
+{% extends "Banjax/base.html" %}
+
+{% block title %} TEST FORM {% end %}
+
+{% block js %} 
+
+    <script src="{{ static_assets('js/banjax.js') }}"></script>
+    <script src="{{ static_assets('js/banjax-data.js') }}"></script>
+
+    <script src="{{ module_assets('js/banjax-tint.js') }}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{ module_assets('css/style.css') }}">
+    
+{% end %} 
+
+
+
+{% block content %}
+    <h1>TEST</h1>
+             
+    {% include 'tint_abuse.html' %}
+
+    <label class="grey" for="log">Data</label><br />
+    <input type="text" name="test" style="width:99%" id="test"><br>		
+    <button id="submit">CLICK</button>
+
+
+{% end %}
+ 
