@@ -10,26 +10,43 @@ from executor import executor
 import logging
 logger = logging.getLogger('boilerplate.' + __name__)
 
+
+'''
+# Perhaps not a good idea to put these here?
+
 def urls():
 	return [
 		(r"/tint", TintHandler),
 	]
+'''
+ITEMS = {x: {"itemIdentifier": x, "title": title, "xml": "blank"} for x, title \
+			in enumerate(["Boring Letter", "Shite Letter", "Letter from Spender"]) }
+print(ITEMS)
+
+class TintAll(BaseHandler):
+
+	def get(self):
+		self.render('all.html', items=ITEMS)
 
 
-class TintHandler(BaseHandler):
+class TintItem(BaseHandler):
+
+	
 	
 	@tornado.gen.coroutine
-	def get(self):
-		self.render("tint_form.html")
+	def get(self, itemIdentifier):
+		
+		data = ITEMS[int(itemIdentifier)]
+		self.render("tint_form.html", item=data)
 
 	@tornado.gen.coroutine
-	def post(self):
+	def post(self, itemIdentifier):
 		xmlData = self.get_argument("xmlData")
 		try:
 			xmlTree = yield executor.submit(etree.parse, StringIO(xmlData))
-			#xmlTree = etree.parse(StringIO(xmlData))
-			self.write({"success": True, "testReturnData": xmlData})
+			ITEMS[int(itemIdentifier)]['xml'] = xmlData
+			self.write({"success": True, "itemIdentifier": itemIdentifier, "testReturnData": xmlData})
 		except Exception as e:
-			self.return_error(404, e)
+			self.return_error(404, {"error": e, "itemIdentifier": itemIdentifier})
 		
-'''test'''
+

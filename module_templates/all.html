@@ -1,4 +1,3 @@
-
 {% extends "Banjax/base.html" %}
 
 {% block title %} TEST FORM {% end %}
@@ -17,19 +16,14 @@
 
 
 {% block content %}
-    <h1>TEST</h1>
+    <h1>TEST ALL</h1>
+    <ul>
+	    {% for _, item in items.items() %}
+	    	<li><a href="tint/{{ item["itemIdentifier"] }}">{{ item["itemIdentifier"] }}</a>
 
-    <h2>EDITING ITEM {{ item["itemIdentifier"] }} —- {{ item["title"] }}</h2>
-             
-    {% include 'tint_abuse.html' %}
-
-    <label class="grey" for="log">Data</label><br />
-    <textarea rows="4" cols="50" id="test">
- 			{{ item["xml"] }}
-		</textarea>
-		<br/>
- 	
-    <button id="submit">CLICK</button>
+	    					-- {{ item["title"] }}</li>
+	    {% end %}
+   	</ul>
 
 
 {% end %}
