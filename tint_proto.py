@@ -17,7 +17,6 @@ def urls():
 
 
 class TintHandler(BaseHandler):
-
 	
 	@tornado.gen.coroutine
 	def get(self):
@@ -33,4 +32,4 @@ class TintHandler(BaseHandler):
 		except Exception as e:
 			self.return_error(404, e)
 		
-
+'''test'''
