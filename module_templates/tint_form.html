@@ -1,28 +1,9 @@
-
-{% extends "Banjax/base.html" %}
-
-{% block title %} TEST FORM {% end %}
-
-{% block js %} 
-
-    <script src="{{ static_assets('js/banjax.js') }}"></script>
-    <script src="{{ static_assets('js/banjax-data.js') }}"></script>
-
-    <script src="{{ module_assets('js/banjax-tint.js') }}"></script>
-
-    <link rel="stylesheet" type="text/css" href="{{ module_assets('css/style.css') }}">
-    
-{% end %} 
-
-
+{% extends 'tint_base.html' %}
 
 {% block content %}
     <h1>TEST</h1>
 
     <h2>EDITING ITEM {{ item["itemIdentifier"] }} —- {{ item["title"] }}</h2>
-             
-    {% include 'tint_abuse.html' %}
-
     <label class="grey" for="log">Data</label><br />
     <textarea rows="4" cols="50" id="test">
  			{{ item["xml"] }}
@@ -30,7 +11,5 @@
 		<br/>
  	
     <button id="submit">CLICK</button>
-
-
 {% end %}
  
