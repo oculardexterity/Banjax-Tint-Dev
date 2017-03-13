@@ -26,7 +26,7 @@ print(ITEMS)
 class TintAll(BaseHandler):
 
 	def get(self):
-		self.render('all.html', items=ITEMS)
+		self.render('tint_all.html', items=ITEMS)
 
 
 class TintItem(BaseHandler):

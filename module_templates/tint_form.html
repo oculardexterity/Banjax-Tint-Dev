@@ -1,15 +1,40 @@
 {% extends 'tint_base.html' %}
 
 {% block content %}
-    <h1>TEST</h1>
 
-    <h2>EDITING ITEM {{ item["itemIdentifier"] }} —- {{ item["title"] }}</h2>
-    <label class="grey" for="log">Data</label><br />
-    <textarea rows="4" cols="50" id="test">
- 			{{ item["xml"] }}
-		</textarea>
-		<br/>
- 	
-    <button id="submit">CLICK</button>
+	<div class="large-7 columns">
+	    <div class="row">
+	    	
+	    
+
+	    	<div class="note_bar large-2 columns">
+		        <textarea rows="4" cols="50" id="test">
+		 			{{ item["xml"] }}
+				</textarea>
+				<br/>
+		 		
+		 	</div>
+
+	    	<div class="large-8 columns">
+		        <textarea rows="4" cols="50" id="test">
+		 			{{ item["xml"] }}
+				</textarea>
+				<br/>
+
+		 	</div>
+		 	<div class="note_bar large-2 columns">
+		        <textarea rows="4" cols="50" id="test">
+		 			{{ item["xml"] }}
+				</textarea>
+				<br/>
+
+		 	</div>
+	 	</div>
+	    
+	</div>
+	<div class="large-5 columns">
+		<img src="https://www.archives.gov/exhibits/documented-rights/exhibit/section2/detail/images/jones-letter-1.jpg" />
+	</div>
+	<hr/>
 {% end %}
  

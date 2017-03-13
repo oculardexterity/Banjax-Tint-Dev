@@ -1,14 +1,15 @@
 {% extends "tint_base.html" %}
 
 {% block content %}
-    <h1>TEST ALL</h1>
-    <ul>
-	    {% for _, item in items.items() %}
-	    	<li><a href="tint/{{ item["itemIdentifier"] }}">{{ item["itemIdentifier"] }}</a>
-
-	    					-- {{ item["title"] }}</li>
-	    {% end %}
-   	</ul>
-
+	<div class="large-12 columns">
+	    <h3>TEST ALL</h3>
+	    <ul>
+		    {% for _, item in items.items() %}
+		    	<li><a href="tint/{{ item["itemIdentifier"] }}">{{ item["itemIdentifier"] }}</a>
+						-- {{ item["title"] }}</li>
+		    {% end %}
+	   	</ul>
+    </div>
+    <hr/>
 {% end %}
  
