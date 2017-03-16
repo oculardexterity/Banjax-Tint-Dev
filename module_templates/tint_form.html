@@ -7,26 +7,44 @@
 	    	
 	    
 
-	    	<div class="note_bar large-2 columns">
-		        <textarea rows="4" cols="50" id="test">
-		 			{{ item["xml"] }}
-				</textarea>
-				<br/>
+	    	<div class="note_bar_left large-2 columns">
+		        
+				<div class="inner">
+					
+					hi
+
+
+				</div>
 		 		
 		 	</div>
 
-	    	<div class="large-8 columns">
-		        <textarea rows="4" cols="50" id="test">
-		 			{{ item["xml"] }}
-				</textarea>
-				<br/>
+	    	<div class="main_text_area large-8 columns">
+	    		<button id="main_add_item">add</button>
+		        
+				<ul id="sortable">
+			  <li class="ui-state-default draggable resizable"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+			  	<input type="button" value="B" style="font-weight:bold;" onclick='add_tags();'>
+			  	<input type="button" value="R" style="font-weight:bold;" onclick='remove_tags();'>
+
+			  	<div id="edit" contenteditable="true" class="editable nodrag" onclick="$(this).focus();">
+
+			  		<div>hello there hi there hi</div>
+
+			  	</div>
+			  </li>
+
+
+
+			  <li class="ui-state-default draggable resizable"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><textarea>Type in me</textarea></li>
+			 
+				</ul>
 
 		 	</div>
-		 	<div class="note_bar large-2 columns">
-		        <textarea rows="4" cols="50" id="test">
-		 			{{ item["xml"] }}
-				</textarea>
-				<br/>
+		 	<div class="note_bar_right large-2 columns">
+		       
+				<div class="inner">
+					ho
+				</div>
 
 		 	</div>
 	 	</div>

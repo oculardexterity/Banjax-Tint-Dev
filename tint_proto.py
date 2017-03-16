@@ -21,7 +21,7 @@ def urls():
 '''
 ITEMS = {x: {"itemIdentifier": x, "title": title, "xml": "blank"} for x, title \
 			in enumerate(["Boring Letter", "Shite Letter", "Letter from Spender"]) }
-print(ITEMS)
+
 
 class TintAll(BaseHandler):
 
