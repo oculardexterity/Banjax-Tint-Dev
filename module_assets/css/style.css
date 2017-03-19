@@ -5,6 +5,9 @@
 
 
 }
+div {
+	/*border: thin solid black;*/
+}
 
 .note_bar_left, .note_bar_right, .main_text_area {
 	
@@ -12,36 +15,155 @@
 	
 }
 
+.draggable .divlabel {
+	font-size:14px;
+	font-variant: small-caps;
+	text-align: right;
+	padding:3px 10px 5px 5px;
+	color: #333;
+	text-shadow: 0px 0px 2px rgba(150, 150, 150, 0.5);
+}
+
+.main_text_area {
+	background-color: rgba(240,240,240,1);
+	border-radius: 5px;
+}
+
+#sortable {
+	margin-left: 0;
+	list-style-position: none;
+
+}
+
+
+
 .inner {
 	margin: 2px;
-	padding: 2px;
+	
 	height: 300px;
 	background-color: #999;
 }
 
 .draggable {
-	background-color: #900;
+	background-color: rgba(255,190,190,1);
+	
 	min-height: 50px;
-	margin: 5px;
-	padding: 5px;
+	margin: 3px;
+	padding:2px;
 	list-style: none;
+	border-radius: 5px;
+
+	position: relative;
+	cursor:move;
 }
 
-.editable {
-	background-color: white;
+.draggable + .draggable {
+	margin-top:15px;
 }
 
-span.foreign {
-	background-color: red;
+.draggable .toolbar {
+	display:none;
 }
 
-span.foreign:hover:after {
+.draggable:hover .toolbar {
+	display:block;
+	padding-left: 5px;
+	top: -40px;
+}
+
+
+
+.editor {
+	background-color: rgba(255,255,255,0.6);
+	outline: none;
+	border-radius: 3px;
+	padding: 5px;
+	cursor: text;
+}
+
+foreign {
+	background-color: rgb(255,200,200);
+	border: thin solid rgb(255,0,0);
+	padding: 1px;
+	border-radius: 2px;
+	position: relative;
+
+}
+
+foreign:hover {
+	background-color: rgb(255,220,220);
+}
+/*
+foreign:hover:after {
 	content: 'foreign';
 	background-color: white;
 	display: block;
 	position: absolute;
-	right:-40px;
+	top: -25px;
+	left: 20px;
+	font-size: 12px;
+	border-radius:3px;
+	padding: 3px;
+	background-color: rgba(255,200,200, 0.6);
 }
+*/
+
+add {
+	background-color: rgb(200,255,200);
+	border: thin solid rgb(0,255,0);
+	padding: 1px;
+	border-radius: 2px;
+	position: relative;
+	cursor: text;
+}
+
+add:hover {
+	background-color: rgb(220,255,220);
+}
+
+
+unclear {
+ background-color: rgb(200,200,200);
+	border: thin solid rgb(150,150,150);
+	padding: 1px;
+	border-radius: 2px;
+	position: relative;
+	cursor: text;
+}
+
+sic {
+	 background-color: rgb(200,200,255);
+	border: thin solid rgb(0,0,255);
+	padding: 1px;
+	border-radius: 2px;
+	position: relative;
+	cursor: text;
+}
+
+gap {
+ overflow: hidden;
+ width: 0;
+
+}
+
+gap:before {
+	content: "[illegible]";
+	font-size: 14px;
+	font-weight:900;
+	font-variant: small-caps;
+	position:relative;
+	top:-1px;
+	margin-left: 2px;
+	
+}
+
+
+.muted {
+	background-color: white;
+}
+
+
+
 
 lb {
 	display: block;

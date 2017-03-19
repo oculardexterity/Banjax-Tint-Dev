@@ -19,25 +19,73 @@
 		 	</div>
 
 	    	<div class="main_text_area large-8 columns">
-	    		<button id="main_add_item">add</button>
+	    		<div>
+	<button id="main_add_item" class="button">+ Paragraph</button>
+	    		</div>
+
+
+	    	<div>
 		        
 				<ul id="sortable">
-			  <li class="ui-state-default draggable resizable"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-			  	<input type="button" value="B" style="font-weight:bold;" onclick='add_tags();'>
-			  	<input type="button" value="R" style="font-weight:bold;" onclick='remove_tags();'>
+			  
 
-			  	<div id="edit" contenteditable="true" class="editable nodrag" onclick="$(this).focus();">
 
-			  		<div>hello there hi there hi</div>
+			  <li class="ui-state-default draggable resizable paragraph">
+				<div class="divlabel">paragraph</div>
+			  	<div class="toolbar">
+		  
 
-			  	</div>
+				  <button href="#" class="button tiny" data-command='foreign'>Foreign</button>
+				  <button href="#" class="button tiny" data-command='add'>Add</button>
+				  <button href="#" class="button tiny" data-command='del'>Del</button>
+				  <button href="#" class="button tiny" data-command='unclear'>Unclear</button>
+				  <button href="#" class="button tiny" data-command='u'>Underline</button>
+				  <button href="#" class="button tiny" data-command='sup'>Superscript</button>
+				   <button href="#" class="button tiny" data-command='sic'>Sic</button>
+				   <button href="#" class="button tiny" data-command="gap">Illegible</button>
+  				</div>
+  					
+					<div class='editor' contenteditable="true">
+
+  						You&nbsp;<del>al</del>&nbsp;<add>will</add>&nbsp;allow me on the<br>part of my people to congratulate<br>you most heartily for com-<br>missioning Hon Frederick Douglass<br>Minister to Hayti. He is the<br>Lion of our race and represents<br>in its&nbsp;<del>most</del>&nbsp;<add>fullest</add>&nbsp;sense the<br>honor and dignity of our people<br>
+					</div>
+
+
+			  </li>
+			  <li class="ui-state-default draggable resizable paragraph">
+				<div class="divlabel">paragraph</div>
+			  	<div class="toolbar">
+		  
+
+				  <button href="#" class="button tiny" data-command='foreign'>Foreign</button>
+				  <button href="#" class="button tiny" data-command='add'>Add</button>
+				  <button href="#" class="button tiny" data-command='del'>Del</button>
+				  <button href="#" class="button tiny" data-command='unclear'>Unclear</button>
+				  <button href="#" class="button tiny" data-command='u'>Underline</button>
+				  <button href="#" class="button tiny" data-command='sup'>Superscript</button>
+				   <button href="#" class="button tiny" data-command='sic'>Sic</button>
+				   <button href="#" class="button tiny" data-command="gap">Illegible</button>
+  				</div>
+  					
+					<div class='editor' contenteditable="true">
+
+  						In this connection I might<br>
+add that the appointment of Lynch<br>
+and Townsend of Indiana and<br>
+other recognition recently had<br>
+is more than ample testimony<br>
+of the fairness of the administration<br>
+toward the colored people
+<br>of the entire country.
+					</div>
+
+
 			  </li>
 
 
 
-			  <li class="ui-state-default draggable resizable"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><textarea>Type in me</textarea></li>
 			 
-				</ul>
+				</ul></div>
 
 		 	</div>
 		 	<div class="note_bar_right large-2 columns">
