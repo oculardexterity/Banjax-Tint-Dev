@@ -65,14 +65,18 @@ div {
 	display:none;
 }
 
-.draggable:hover .toolbar {
+.main_sortable .paragraph:hover .toolbar {
 	display:block;
 	padding-left: 5px;
 	top: -40px;
 }
 
-.toolbar {
-	
+
+
+.header .draggable:hover .toolbar {
+	display:block;
+	padding-left: 5px;
+	top: -40px;
 }
 
 
@@ -174,6 +178,22 @@ del:after {
 	color: #666;
 }
 
+.header {
+	background-color: rgba(140,200,140,1);
+}
+
+.header li.draggable {
+	background-color: rgba(150,240,150,1);
+	
+	min-height: 50px;
+	margin: 3px;
+	padding:2px;
+	list-style: none;
+	border-radius: 5px;
+
+	position: relative;
+	cursor:move;
+}
 
 
 .muted {
@@ -185,4 +205,10 @@ del:after {
 
 lb {
 	display: block;
+}
+
+
+.image_column img {
+	position: relative;
+	top: 50px;
 }
