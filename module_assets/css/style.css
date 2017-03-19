@@ -71,6 +71,10 @@ div {
 	top: -40px;
 }
 
+.toolbar {
+	
+}
+
 
 
 .editor {
@@ -156,6 +160,20 @@ gap:before {
 	margin-left: 2px;
 	
 }
+
+del {
+	text-decoration: #666 line-through;
+}
+
+del:before {
+	content: "|";
+	color: #666;
+}
+del:after {
+	content: "|";
+	color: #666;
+}
+
 
 
 .muted {

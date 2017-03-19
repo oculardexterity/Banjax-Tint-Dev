@@ -24,7 +24,30 @@ $('button#submit').click(function(e) {
 
 
 
-var item = '<li class="ui-state-default draggable resizable"><div class="toolbar"> <button href="#" class="button small" data-command="foreign">For</button> <button href="#" class="button small" data-command="addition">Add</button> </div> <div class="editor" contenteditable="true"> Try making some changes here. Add your own text or maybe an image.&nbsp; </div> </li>';
+var item = `<li class="ui-state-default draggable resizable paragraph">
+          <div class="divlabel">paragraph</div>
+
+          <div class="toolbar">
+      
+
+          <button href="#" class="button small" data-command="foreign">Foreign</button>
+          <button href="#" class="button small" data-command="add">+</button>
+          <button href="#" class="button small" data-command="del">-</button>
+          <button href="#" class="button small" data-command="unclear">?</button>
+          <button href="#" class="button small" data-command="u"><u>u</u></button>
+          <button href="#" class="button small" data-command="sup"><sup>super</sup></button>
+           <button href="#" class="button small" data-command="sic">[sic]</button>
+           <button href="#" class="button small" data-command="gap">[gap]</button>
+           
+          </div>
+            
+          <div class="editor" contenteditable="true">
+
+              <br>
+          </div>
+
+
+        </li>`;
 
 
 
