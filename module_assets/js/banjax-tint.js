@@ -1,7 +1,8 @@
 Banjax.tint = function(be) {
 
 
-    // Builds data structure from fields
+    // Eeeeee begads, this should not be nested forloops like this!
+    // get some fucking modern programming on the job!
     function buildDataStructure() {
 
         function wrap_element(content, tag) {
@@ -16,7 +17,7 @@ Banjax.tint = function(be) {
                 }
             }
             else {
-                content = content.replace(/<br>/g, '<lb/>').trim().replace(/<lb\/>$/g, '').trim();
+                content = content.replace(/<br>/g, '\n<lb/>').trim().replace(/<lb\/>$/g, '').trim();
             }
             content = content.replace(/&nbsp;/g, ' ');
             return `<${tag}>${content}</${tag}>`;
@@ -152,12 +153,9 @@ Banjax.tint = function(be) {
    
     }
 
-    // SETUP --- bind event listeners
-
-    // Adds <br> on enter press === applies to all contenteditable divs
-    // POSSIBLY SOME EXCLUSIONS REQUIRED?
-    $('.editor').keydown(function(e) {
+    function br_on_enter_key(e) {
         // trap the return key being pressed
+    
         e = e || window.event;
         if (e.keyCode === 13) {
 
@@ -176,7 +174,13 @@ Banjax.tint = function(be) {
 
             return false;
         }
-    });
+    }
+
+    // SETUP --- bind event listeners
+
+    // Adds <br> on enter press === applies to all contenteditable divs
+    // POSSIBLY SOME EXCLUSIONS REQUIRED?
+    $('.editor').keydown(br_on_enter_key);
  
     // More event bindings
     $(be.toolbar_buttons).click(toolBarButtonOnClick); // Bind toolbar button
@@ -186,6 +190,7 @@ Banjax.tint = function(be) {
         var tb = $(editable_block_template('paragraph', '[Delete me]', true));
         $(be.main_sortable).append(tb);
         tb.find(be.toolbar_buttons).click(toolBarButtonOnClick);
+        tb.find('.editor').keydown(br_on_enter_key);
     });
 
     $(be.add_header_button).click(function() {
@@ -193,6 +198,8 @@ Banjax.tint = function(be) {
         $(be.main_sortable).prepend(tb);
         $('.header ul.sortable').sortable({cancel : be.block_editor});
         tb.find(be.toolbar_buttons).click(toolBarButtonOnClick);
+        tb.find('.editor').keydown(br_on_enter_key);
+        $(window).scrollTo($(tb), 800, {offset: -100});
     });
 
     $(be.add_closer_button).click(function() {
@@ -200,6 +207,8 @@ Banjax.tint = function(be) {
         $(be.main_sortable).append(tb);
         $('.closer ul.sortable').sortable({cancel : be.block_editor});
         tb.find(be.toolbar_buttons).click(toolBarButtonOnClick);
+        tb.find('.editor').keydown(br_on_enter_key);
+        $(window).scrollTo($(tb), 800, {offset: -100});
     });
 
     document.onselectionchange = function() {
