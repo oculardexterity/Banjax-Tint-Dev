@@ -29,7 +29,7 @@ div {
 	border-radius: 5px;
 }
 
-#sortable {
+.sortable {
 	margin-left: 0;
 	list-style-position: none;
 
@@ -74,6 +74,12 @@ div {
 
 
 .header .draggable:hover .toolbar {
+	display:block;
+	padding-left: 5px;
+	top: -40px;
+}
+
+.closer .draggable:hover .toolbar {
 	display:block;
 	padding-left: 5px;
 	top: -40px;
@@ -178,12 +184,35 @@ del:after {
 	color: #666;
 }
 
+preprinted {
+	font-family: Courier, monospace;
+	font-style: italic;
+}
+
 .header {
 	background-color: rgba(140,200,140,1);
 }
 
 .header li.draggable {
 	background-color: rgba(150,240,150,1);
+	
+	min-height: 50px;
+	margin: 3px;
+	padding:2px;
+	list-style: none;
+	border-radius: 5px;
+
+	position: relative;
+	cursor:move;
+}
+
+
+.closer {
+	background-color: rgba(140,140,200,1);
+}
+
+.closer li.draggable {
+	background-color: rgba(150,150,240,1);
 	
 	min-height: 50px;
 	margin: 3px;

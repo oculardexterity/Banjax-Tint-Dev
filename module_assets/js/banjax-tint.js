@@ -1,11 +1,65 @@
-Banjax.tint = (function(be) {
+Banjax.tint = function(be) {
 
 
     // Builds data structure from fields
     function buildDataStructure() {
-        // Nothing here yet.
-        data = '';
+
+        function wrap_element(content, tag) {
+            if (tag == 'address') {
+                content_array = content.split('<br>');
+                content = '';
+                for (var i=0, l=content_array.length; i<l; i++) {
+                    c = content_array[i].trim();
+                    if (c != '') {
+                        content += '<addrLine>' + c + '</addrLine>';
+                    }
+                }
+            }
+            else {
+                content = content.replace(/<br>/g, '<lb/>').trim().replace(/<lb\/>$/g, '').trim();
+            }
+            content = content.replace(/&nbsp;/g, ' ');
+            return `<${tag}>${content}</${tag}>`;
+        }
+
+        var data = '<text>';
+        var main_div = $(be.main_sortable + ' li.draggable');
+        
+        for (var i=0, l=main_div.length; i <l; i++) {
+            if ($(main_div[i]).hasClass('header')) {
+                console.log('header');
+                var inner_div = $(main_div[i]).find('li.draggable');
+                var inner_content = '<header>';
+                for (var m=0, n=inner_div.length; m < n; m++) {
+                    if ($(inner_div[m]).hasClass('date-line')) {
+                        inner_content += wrap_element($(inner_div[m]).find('.editor').html(), 'dateline');
+                    }
+                    if ($(inner_div[m]).hasClass('address')) {
+                        inner_content += wrap_element($(inner_div[m]).find('.editor').html(), 'address');
+                    }
+                    if ($(inner_div[m]).hasClass('salute')) {
+                        inner_content += wrap_element($(inner_div[m]).find('.editor').html(), 'salute');
+                    }
+                }
+                inner_content += '</header>';
+                data += inner_content;
+            }
+            if ($(main_div[i]).hasClass('paragraph')) {
+                console.log('para');
+               data += wrap_element($(main_div[i]).find('.editor').html(), 'p');
+            }
+
+            
+        }
+
+        data += '</text>';
+        function copyToClipboard(text) {
+             window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+        }
+        copyToClipboard(data);
         return data;
+
+        
     }
 
     // Gets the current loaded item by splitting URL
@@ -71,7 +125,7 @@ Banjax.tint = (function(be) {
         var command = $(this).data('command');
         // Lose this fugly if!!
         if (command == 'foreign' || command == 'add' || command == 'del' || command == 'unclear' || command == 'u'
-            || command == 'sup' || command == 'sic') 
+            || command == 'sup' || command == 'sic' || command == 'preprinted') 
         {
             
             // Case where element already applied
@@ -100,8 +154,9 @@ Banjax.tint = (function(be) {
 
     // SETUP --- bind event listeners
 
-    // Adds <br> on enter press. 
-    $('div[contenteditable]').keydown(function(e) {
+    // Adds <br> on enter press === applies to all contenteditable divs
+    // POSSIBLY SOME EXCLUSIONS REQUIRED?
+    $('.editor').keydown(function(e) {
         // trap the return key being pressed
         e = e || window.event;
         if (e.keyCode === 13) {
@@ -140,13 +195,24 @@ Banjax.tint = (function(be) {
         tb.find(be.toolbar_buttons).click(toolBarButtonOnClick);
     });
 
+    $(be.add_closer_button).click(function() {
+        var tb = $(closer_block_template());
+        $(be.main_sortable).append(tb);
+        $('.closer ul.sortable').sortable({cancel : be.block_editor});
+        tb.find(be.toolbar_buttons).click(toolBarButtonOnClick);
+    });
+
     document.onselectionchange = function() {
         var parentNode = getSelectedNode().nodeName.toLowerCase();
         $(be.toolbar_buttons + '[data-command]').removeClass('hollow');
         $(be.toolbar_buttons + '[data-command="'+ parentNode +'"]').addClass('hollow');
     };
 
-});
+    return {
+        buildDataStructure: buildDataStructure
+    }
+
+};
 
 
 var bind_elements = {
@@ -158,12 +224,13 @@ var bind_elements = {
     toolbar_buttons: ".toolbar button",
     add_paragraph_button: ".add_paragraph",
     add_header_button: ".add_header",
+    add_closer_button: ".add_closer",
     submit_data_button: ".submit_data"
 
 };
 
 
-Banjax.tint(bind_elements);
+tint = Banjax.tint(bind_elements);
 
 
 
@@ -176,9 +243,27 @@ var header_block_template = function() {
         <li class="ui-state-default draggable header sortable">
                 <div class="divlabel">header</div>
                 <ul class="sortable">
-                    ${editable_block_template('date line', '(e.g. "Dublin, 17 March 1916")', true)}
+                    ${editable_block_template('date-line', '(e.g. "Dublin, 17 March 1916")', true)}
                     ${editable_block_template('address', 'ADDRESS', true)}
-                    ${editable_block_template('salute ("dear sir")', 'SALUTE', true)}
+                    ${editable_block_template('salute', 'SALUTE', true)}
+                </ul>
+
+            </div>
+
+        </li>
+
+    `
+}
+
+var closer_block_template = function () {
+    
+    return `
+        <li class="ui-state-default draggable closer sortable">
+                <div class="divlabel">closer</div>
+                <ul class="sortable">
+                    ${editable_block_template('salute', '(e.g. "Yours faithfully")', true)}
+                    ${editable_block_template('signed', 'The signature', true)}
+                    
                 </ul>
 
             </div>
@@ -204,14 +289,15 @@ var editable_block_template = function(block_type, content, block_buttons) {
       
     if (block_buttons) {
 
-        template += `<button href="#" class="button small" data-command="foreign">Foreign</button>
-          <button href="#" class="button small" data-command="add">+</button>
-          <button href="#" class="button small" data-command="del">-</button>
-          <button href="#" class="button small" data-command="unclear">?</button>
-          <button href="#" class="button small" data-command="u"><u>u</u></button>
-          <button href="#" class="button small" data-command="sup"><sup>super</sup></button>
-          <button href="#" class="button small" data-command="sic">[sic]</button>
-          <button href="#" class="button small" data-command="gap">[gap]</button>`
+        template += `<button href="#" class="button tiny" data-command="foreign">Foreign</button>
+          <button href="#" class="button tiny" data-command="add">+</button>
+          <button href="#" class="button tiny" data-command="del">-</button>
+          <button href="#" class="button tiny" data-command="unclear">?</button>
+          <button href="#" class="button tiny" data-command="u"><u>u</u></button>
+          <button href="#" class="button tiny" data-command="sup"><sup>super</sup></button>
+          <button href="#" class="button tiny" data-command="sic">[sic]</button>
+          <button href="#" class="button tiny" data-command="gap">[gap]</button>
+          <button href="#" class="button tiny" data-command="preprinted">preprinted</button>`
     }
 
     template += `
