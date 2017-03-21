@@ -1,59 +1,82 @@
 Banjax.tint = function(be) {
 
-
-    // Eeeeee begads, this should not be nested forloops like this!
-    // get some fucking modern programming on the job!
+ 
     function buildDataStructure() {
 
-        function wrap_element(content, tag) {
-            if (tag == 'address') {
-                content_array = content.split('<br>');
-                content = '';
-                for (var i=0, l=content_array.length; i<l; i++) {
-                    c = content_array[i].trim();
-                    if (c != '') {
-                        content += '<addrLine>' + c + '</addrLine>';
-                    }
-                }
-            }
-            else {
-                content = content.replace(/<br>/g, '\n<lb/>').trim().replace(/<lb\/>$/g, '').trim();
-            }
-            content = content.replace(/&nbsp;/g, ' ');
-            return `<${tag}>${content}</${tag}>`;
-        }
+        function transform(elem, children) {
 
-        var data = '<text>';
-        var main_div = $(be.main_sortable + ' li.draggable');
-        
-        for (var i=0, l=main_div.length; i <l; i++) {
-            if ($(main_div[i]).hasClass('header')) {
-                console.log('header');
-                var inner_div = $(main_div[i]).find('li.draggable');
-                var inner_content = '<header>';
-                for (var m=0, n=inner_div.length; m < n; m++) {
-                    if ($(inner_div[m]).hasClass('date-line')) {
-                        inner_content += wrap_element($(inner_div[m]).find('.editor').html(), 'dateline');
-                    }
-                    if ($(inner_div[m]).hasClass('address')) {
-                        inner_content += wrap_element($(inner_div[m]).find('.editor').html(), 'address');
-                    }
-                    if ($(inner_div[m]).hasClass('salute')) {
-                        inner_content += wrap_element($(inner_div[m]).find('.editor').html(), 'salute');
-                    }
-                }
-                inner_content += '</header>';
-                data += inner_content;
-            }
-            if ($(main_div[i]).hasClass('paragraph')) {
-                console.log('para');
-               data += wrap_element($(main_div[i]).find('.editor').html(), 'p');
+            function tei_tag_normalise(content) {
+                return content.replace(/&nbsp;/g, ' ') // Replaces nonbreaking space with space
+                              .replace(/<u>/g, '<hi rend="underline">') // Opening <u> to <hi rend="underline">
+                              .replace(/<\/u>/g, '</hi>')               // Closing <u> to closing <hi>
+                              .replace(/<sup>/g, '<hi rend="superscript">')
+                              .replace(/<\/sup>/g, '</hi>')
+                              .replace(/<preprinted>/g, '<span type="preprinted">')
+                              .replace(/<\/preprinted>/g, '</span>')
+                              .replace(/<br>/g, '\n<lb/>') // Br to lb
+                              
+                              .replace(/\s?<lb\/>\s?/g, '<lb/> ') // Removes trailing space before linebreaks.
+                              .replace(/-<lb\/>\s?/g, '<lb rend="hypen"/>') // Replaces word-split lb with rend=hyphen
+                              .replace(/<lb\/>$/g, ''); // Removes trailing line break.
+                              
             }
 
+            function generic_wrap(tag, content) {
+                content = tei_tag_normalise(content.trim());
+                return `<${tag}>${content}</${tag}>`;
+            }
+
+            //console.log(elem);
+            if ($(elem).hasClass('header')) {
+                return '<header>' + children + '</header>';
+            }
+
+            if ($(elem).hasClass('closer')) {
+                return '<closer>' + children + '</closer>';
+            }
+
+            if ($(elem).hasClass('address')) {
+                var content_array = $(elem).find('.editor').html().split('<br>');
+                var content = content_array.map(function(item) {
+                    var cleaned_item = tei_tag_normalise(item.replace(/&nbsp;/g, ' ').trim());
+                    if (cleaned_item != '') {
+                        return '<addrLine>' + cleaned_item + '</addrLine>';
+                    }
+                }).join('');
+                return '<address>' + content + '</address>';
+            }
+
+            if ($(elem).hasClass('salute')) {
+                return generic_wrap('salute', $(elem).find('.editor').html());
+            }
+
+            if ($(elem).hasClass('dateline')) {
+                return generic_wrap('dateline', $(elem).find('.editor').html());
+            }
             
+            if ($(elem).hasClass('paragraph')) {
+                return generic_wrap('p', $(elem).find('.editor').html());
+            }
+
+            if ($(elem).hasClass('signed')) {
+                return generic_wrap('signed', $(elem).find('.editor').html());
+            }
         }
 
-        data += '</text>';
+
+
+        function recursive_build(i, elem) {
+            if ($(elem).find('ul.sortable').length != 0) {
+                return transform(elem, $(elem).find('ul.sortable li.draggable').map(recursive_build).get().join(''));
+            }
+            return transform(elem);
+        }
+        
+        var data = '<text>' + $(be.main_sortable + '> li.draggable').map(recursive_build).get().join('') + '</text>';
+
+    
+
+        
         function copyToClipboard(text) {
              window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
         }
@@ -252,7 +275,7 @@ var header_block_template = function() {
         <li class="ui-state-default draggable header sortable">
                 <div class="divlabel">header</div>
                 <ul class="sortable">
-                    ${editable_block_template('date-line', '(e.g. "Dublin, 17 March 1916")', true)}
+                    ${editable_block_template('dateline', '(e.g. "Dublin, 17 March 1916")', true)}
                     ${editable_block_template('address', 'ADDRESS', true)}
                     ${editable_block_template('salute', 'SALUTE', true)}
                 </ul>
@@ -260,7 +283,6 @@ var header_block_template = function() {
             </div>
 
         </li>
-
     `
 }
 
