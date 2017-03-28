@@ -43,6 +43,7 @@ class TintItem(BaseHandler):
 	def post(self, itemIdentifier):
 		xmlData = self.get_argument("xmlData")
 		try:
+			print(xmlData)
 			xmlTree = yield executor.submit(etree.parse, StringIO(xmlData))
 			ITEMS[int(itemIdentifier)]['xml'] = xmlData
 			self.write({"success": True, "itemIdentifier": itemIdentifier, "testReturnData": xmlData})

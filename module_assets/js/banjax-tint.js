@@ -16,7 +16,7 @@ Banjax.tint = function(be) {
                               .replace(/<br>/g, '\n<lb/>') // Br to lb
                               
                               .replace(/\s?<lb\/>\s?/g, '<lb/> ') // Removes trailing space before linebreaks.
-                              .replace(/-<lb\/>\s?/g, '<lb rend="hypen"/>') // Replaces word-split lb with rend=hyphen
+                              .replace(/-<lb\/>\s?/g, '<lb rend="hyphen"/>') // Replaces word-split lb with rend=hyphen
                               .replace(/<lb\/>$/g, ''); // Removes trailing line break.
                               
             }
@@ -26,7 +26,12 @@ Banjax.tint = function(be) {
                 return `<${tag}>${content}</${tag}>`;
             }
 
-            //console.log(elem);
+            /* 
+                All this elem.hasClass business can be avoided if we set a
+                data-property on the actual element rather than messing about
+                in this way. --- let Class handle CSS/jQ binding
+                but let our data work outside that.
+            */
             if ($(elem).hasClass('header')) {
                 return '<header>' + children + '</header>';
             }
@@ -80,12 +85,12 @@ Banjax.tint = function(be) {
         function copyToClipboard(text) {
              window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
         }
-        copyToClipboard(data);
+        //copyToClipboard(data);
         return data;
 
         
     }
-
+    /*
     // Gets the current loaded item by splitting URL
     function current_item() {
         var itemloaded = window.location.href.split('/');
@@ -93,6 +98,7 @@ Banjax.tint = function(be) {
         
         return itemloaded
     }
+    */
 
     // Gets the node in which caret rests... RETURNS NODE 
     function getSelectedNode() {
@@ -138,7 +144,7 @@ Banjax.tint = function(be) {
     // Binds submit button -- INJECT SELECTOR
     $(be.submit_data_button).click(function(e) {
         var xmlData = buildDataStructure();
-        Banjax.data.post(current_item(), xmlData, function(response) {console.log("Just got a response:", response)},
+        Banjax.data.post(Banjax.data.current_item(), xmlData, function(response) {console.log("Just got a response:", response)},
             function(response) {console.log("BAD REQUEST:", response.responseText)});
     });
 
@@ -240,6 +246,8 @@ Banjax.tint = function(be) {
         $(be.toolbar_buttons + '[data-command="'+ parentNode +'"]').addClass('hollow');
     };
 
+
+
     return {
         buildDataStructure: buildDataStructure
     }
@@ -275,8 +283,10 @@ var header_block_template = function() {
         <li class="ui-state-default draggable header sortable">
                 <div class="divlabel">header</div>
                 <ul class="sortable">
-                    ${editable_block_template('dateline', '(e.g. "Dublin, 17 March 1916")', true)}
                     ${editable_block_template('address', 'ADDRESS', true)}
+
+                    ${editable_block_template('dateline', '(e.g. "Dublin, 17 March 1916")', true)}
+                    
                     ${editable_block_template('salute', 'SALUTE', true)}
                 </ul>
 
